@@ -1,25 +1,87 @@
-import React, { useEffect, useContext } from "react";
-import { Text } from "react-native"
+import React, { useEffect, useContext, useState } from "react";
+import { Text, FlatList, View, StyleSheet, ActivityIndicator } from "react-native";
 import produtoService from "../servicos/ProdutoService";
 import LoginContext from "../context/LoginContext";
+import ItemLista from "../componentes/ItemLista";
+
+
 
 export default function Produtos(){
 
     const [token, setToken] = useContext(LoginContext);
+    const [listaProdutos, setlistaProdutos] = useState([]);
+    const [pagina, setPagina] = useState(1);
+    const [maisPaginas, setMaisPaginas] = useState(true);
 
-    function listarProdutos() {
-        console.log("Token recebido: ", token);
-        produtoService.listarProdutos(token);
+    async function listarProdutos() {
+        if (!maisPaginas) return;
+        const resultListar =  await produtoService.listarProdutos(token, pagina);
+            if (resultListar.status === 200) {
+                const listaAtual = resultListar.data.products;
+                setlistaProdutos(prev => [...prev, ...listaAtual]);
+                console.log("length: ", listaProdutos.length);
+                if (resultListar.data.totalItems > listaProdutos.length) {
+                    setPagina(prev => prev + 1);
+                } else {
+                    setMaisPaginas(false);
+                }
+
+                console.log("Pagina: ", pagina);
+            } 
     }
-
+ 
 
     useEffect(() => {
-        console.log(" -- Inicio do LISTAR PRODUTOS! -- ")
         listarProdutos();
     }, []);
 
-    return <Text>Você está na tela de listar os Produtos!</Text>
 
+    const TopoLista = () => {
+        return <>
+            <Text style={estilos.titulo}>Os melhores produtos...</Text>
+        </>
+    }
 
+    return <>
+        <FlatList
+            data={listaProdutos}
+            ListHeaderComponent={TopoLista}
+            renderItem={ItemLista}
+            ListFooterComponent={Loading(maisPaginas)}
+            onEndReached={listarProdutos}
+            onEndReachedThreshold={0.1}
+        />
+    </>
 }
+
+function Loading(carregando) {
+    if (carregando) {
+        return <ActivityIndicator size={'large'}/>;
+    }
+
+    return null;
+}
+
+const estilos =  StyleSheet.create({
+    item: {
+        flexDirection: "row",
+        borderBottomWidth: 1,
+        borderBottomColor: "#ECECEC",
+        paddingVertical: 16,
+        marginHorizontal: 16,
+        alignItems: "center",
+    },
+    titulo: {
+      width: "100%",
+      position: "relative",
+      textAlign: "left",
+      fontSize: 16,
+      lineHeight: 26,
+      color: "rgb(237, 20, 91)",
+      fontWeight: "bold",
+      padding: 16,
+    },
+   
+  });
+  
 

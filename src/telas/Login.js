@@ -16,8 +16,8 @@ export default function Login(){
     const iconeEvelope = <FontAwesomeIcon icon={ faEnvelope } />;
     const iconeCadeado = <FontAwesomeIcon icon= { faLock } />;
 
-    const [email, setEmail] = useState(null);
-    const [password, setPassword] = useState(null);
+    const [email, setEmail] = useState("phaulolima@gmail.com");
+    const [password, setPassword] = useState("12345678");
 
     let dadosLogin = {
         email: email,
@@ -91,24 +91,20 @@ const estilos = StyleSheet.create({
         paddingVertical: 8,
         paddingHorizontal: 16,
     },
-
     specificContainer: {
       backgroundColor: "#fff"
     },
-
     button: {
       width: "100%",
       marginTop: 50,
       alignContent: "center"
     },
-
     botao: {
         marginTop: 16,
         backgroundColor: "#2A9F85",
         paddingVertical: 16,
         borderRadius: 6
     },
-
     textoBotao: {
         textAlign: "center",
         color: "#ffffff",
@@ -116,5 +112,4 @@ const estilos = StyleSheet.create({
         lineHeight: 26,
         fontWeight: "bold"
     }
-
   });

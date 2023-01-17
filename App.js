@@ -26,7 +26,7 @@ export default function App() {
                     <Rotas />
                   </LoginContext.Provider>
               </SafeAreaView>
-      </NavigationContainer> 
+        </NavigationContainer> 
 }
 
 const estilos = StyleSheet.create({

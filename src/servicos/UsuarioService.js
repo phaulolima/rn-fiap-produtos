@@ -23,7 +23,6 @@ class UsuarioService{
     }
 
     async logarUsuario(data){
-        console.log("Dados de login do usuário:", data);
         return axios({
             url: Config.API_URL + "storeProducts/login",
             method: "POST",
@@ -31,12 +30,9 @@ class UsuarioService{
             data: data,
             headers: Config.HEADER_REQUEST,
         }).then((response) => {
-            console.log("-------- Passou no sucesso login!");
             AsyncStorage.setItem("TOKEN", response.data.token);
             AsyncStorage.setItem("NOME_USUARIO", response.data.name);
-            console.log("--- Nome do usuário logado: ", response.data.name);
             const nomeUsuario = AsyncStorage.getItem("NOME_USUARIO");
-            console.log("-----***** => ", nomeUsuario);
             return Promise.resolve(response)
         }).catch((error) => {
             console.log('Erro login: ', error);
