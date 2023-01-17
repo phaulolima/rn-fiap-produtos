@@ -3,6 +3,7 @@ import { Text, FlatList, View, StyleSheet, ActivityIndicator } from "react-nativ
 import produtoService from "../servicos/ProdutoService";
 import LoginContext from "../context/LoginContext";
 import ItemLista from "../componentes/ItemLista";
+import Styles from "../MainStyle";
 
 
 
@@ -38,7 +39,7 @@ export default function Produtos(){
 
     const TopoLista = () => {
         return <>
-            <Text style={estilos.titulo}>Os melhores produtos...</Text>
+            <Text style={Styles.tituloSecundario}>Os melhores produtos...</Text>
         </>
     }
 
@@ -71,16 +72,7 @@ const estilos =  StyleSheet.create({
         marginHorizontal: 16,
         alignItems: "center",
     },
-    titulo: {
-      width: "100%",
-      position: "relative",
-      textAlign: "left",
-      fontSize: 16,
-      lineHeight: 26,
-      color: "rgb(237, 20, 91)",
-      fontWeight: "bold",
-      padding: 16,
-    },
+
    
   });
   

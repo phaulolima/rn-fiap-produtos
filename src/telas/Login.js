@@ -35,11 +35,7 @@ export default function Login(){
         setLoading(true);
         usuarioService.logarUsuario(dadosLogin).then((response) => {
             if(response.status === 200){
-                console.log("-------- Passou no logar!");
-                console.log("-- STATUS RESPONSE " + response.status);
                 setLoading(false);
-   
-                console.log("********************** teste: ", token);
                 setToken(response.data.token);
                 navigation.navigate('Produtos');
             } else {
@@ -50,7 +46,7 @@ export default function Login(){
     };
 
     return (
-        <View style={estilos.viewContainer}>
+        <View style={Styles.viewContainer}>
             <Text>Fazer login</Text>
             <Input
                 placeholder="E-mail"
@@ -58,7 +54,7 @@ export default function Login(){
                 onChangeText={value => setEmail(value)}
                 keyboardType="email-address" />
             <Input
-                placeholder="Sua senha"
+                placeholder="Senha"
                 leftIcon={iconeCadeado}
                 onChangeText={value => setPassword(value)}
                 secureTextEntry={true} />
@@ -69,15 +65,15 @@ export default function Login(){
         
                 <TouchableOpacity 
                     onPress={() => logar()} 
-                    style={estilos.botao}
+                    style={Styles.botaoPrincipal}
                     disabled={isLoading}>
-                    <Text style={estilos.textoBotao}>ENTRAR</Text>
+                    <Text style={Styles.textoBotaoPrincipal}>ENTRAR</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => usuarioService.alerta()} 
-                    style={estilos.botao}
+                <TouchableOpacity onPress={() => navigation.navigate('Cadastro')} 
+                    style={Styles.botaoSecundario}
                     disabled={isLoading}>
-                    <Text style={estilos.textoBotao}>CADASTRAR</Text>
+                    <Text style={Styles.textoBotaoSecundario}>CRIAR USUÁRIO</Text>
                 </TouchableOpacity>
         </View>
     )
@@ -86,30 +82,5 @@ export default function Login(){
 
 const estilos = StyleSheet.create({
 
-    viewContainer: {
-        paddingTop: 50,
-        paddingVertical: 8,
-        paddingHorizontal: 16,
-    },
-    specificContainer: {
-      backgroundColor: "#fff"
-    },
-    button: {
-      width: "100%",
-      marginTop: 50,
-      alignContent: "center"
-    },
-    botao: {
-        marginTop: 16,
-        backgroundColor: "#2A9F85",
-        paddingVertical: 16,
-        borderRadius: 6
-    },
-    textoBotao: {
-        textAlign: "center",
-        color: "#ffffff",
-        fontSize: 16,
-        lineHeight: 26,
-        fontWeight: "bold"
-    }
+
   });
