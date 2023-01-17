@@ -1,14 +1,15 @@
 import React, {useState, useContext} from "react";
 import { Text, View, StyleSheet, TouchableOpacity, Alert, ActivityIndicator } from "react-native";
+import { Input } from 'react-native-elements';
 import AsyncStorage from "@react-native-async-storage/async-storage"
-import { Button, Input } from 'react-native-elements';
-import Styles from "../MainStyle";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons/';
-import usuarioService from "../servicos/UsuarioService";
 import { useNavigation } from "@react-navigation/native";
 
+import Styles from "../MainStyle";
+import usuarioService from "../servicos/UsuarioService";
 import LoginContext from "../context/LoginContext";
+
 
 
 export default function Login(){
@@ -73,7 +74,7 @@ export default function Login(){
                 <TouchableOpacity onPress={() => navigation.navigate('Cadastro')} 
                     style={Styles.botaoSecundario}
                     disabled={isLoading}>
-                    <Text style={Styles.textoBotaoSecundario}>CRIAR USUÁRIO</Text>
+                    <Text style={Styles.textoBotaoSecundario}>CRIAR CONTA</Text>
                 </TouchableOpacity>
         </View>
     )

@@ -7,9 +7,10 @@ class UsuarioService{
     
 
     async cadastrarUsuario(data){
+        console.log("Dados de cadastro: ", data)
         return axios({
             url: Config.API_URL + "storeProducts/signup",
-            method: "POST",
+            method: "PUT",
             timeout: Config.TIMEOUT_REQUEST,
             data: data,
             headers: Config.HEADER_REQUEST
@@ -17,7 +18,7 @@ class UsuarioService{
             console.log('Response 200 - Cadastrar usuário: ', response);
             return Promise.resolve(response)
         }).catch((error) => {
-            console.log('Response error: ', error);
+            console.log('Response cadastrar: ', error);
             return Promise.reject(error)
         })
     }

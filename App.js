@@ -6,6 +6,8 @@ import Login from "./src/telas/Login";
 import Produtos from "./src/telas/Produtos";
 import LoginContext from "./src/context/LoginContext";
 import CadastroUsuario from "./src/telas/CadastroUsuario";
+import DetalhesProduto from "./src/telas/DetalhesProduto";
+import ProdutosFavoritos from "./src/telas/ProdutosFavoritos";
 
 const Stack = createNativeStackNavigator();
 
@@ -13,9 +15,10 @@ const Stack = createNativeStackNavigator();
 function Rotas() {
   return <Stack.Navigator>
       <Stack.Screen name="Login" component={Login}/>
-      <Stack.Screen name="Produtos" component={Produtos}/>
       <Stack.Screen name="Cadastro" component={CadastroUsuario}/>
-      
+      <Stack.Screen name="Produtos" component={Produtos}/>
+      <Stack.Screen name="Detalhes" component={DetalhesProduto}/>
+      <Stack.Screen name="Favoritos" component={ProdutosFavoritos}/>
     </Stack.Navigator>
 }
 
