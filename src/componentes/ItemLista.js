@@ -1,13 +1,36 @@
-import React from "react";
-import { Text, View, StyleSheet, Image } from "react-native";
+import React, {useState, useContext} from "react";
+import { Text, View, StyleSheet, Image, ActivityIndicator, TouchableOpacity } from "react-native";
 import estrela from '../assets/estrela.png';
 import estrelaCinza from '../assets/estrelaCinza.png';
 import { useNavigation } from "@react-navigation/native";
+import produtoService from "../servicos/ProdutoService";
+import LoginContext from "../context/LoginContext";
 
 
-
-export default function ItemLista({name, price, favorite, aoPressionar}) {
+export default function ItemLista({name, price, favorite, _id, aoPressionar}) {
     
+
+    const [isLoading, setLoading] = useState(false);
+    const [token, setToken] = useContext(LoginContext);
+
+    const navigation = useNavigation();
+
+    let requisicaoFavotirar = {
+        productID: _id,
+    }
+
+    function favoritarProduto() {
+        console.log("favotirar!");
+        setLoading(true);
+        produtoService.favoritarProduto(token, requisicaoFavotirar).then((response) => {
+            if(response.status === 200){
+                setLoading(false);
+            } else {
+                setLoading(false);
+            }
+        })
+    }
+
     const getImagem = (favorite) => {
         if (favorite) {
             return estrela;
@@ -16,7 +39,12 @@ export default function ItemLista({name, price, favorite, aoPressionar}) {
     }
 
     return <View style={estilos.item} >
-            <Image source={ getImagem(favorite) } style={estilos.estrela}/>
+            <TouchableOpacity onPress={() => favoritarProduto()}>
+                <Image  source={ getImagem(favorite) } style={estilos.estrela}/>
+            </TouchableOpacity>
+            { isLoading && 
+                <ActivityIndicator />
+            }
             <Text lineBreakMode="true" style={estilos.nome} 
                 onPress={aoPressionar} >
                 {name} </Text>

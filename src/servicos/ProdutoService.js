@@ -37,7 +37,25 @@ class ProdutoService {
         }).then((response) => {
             return Promise.resolve(response)
         }).catch((error) => {
-            console.log('--------- Erro ao detalhar produtos! : ', error);
+            console.log('--------- Erro ao detalhar produto! : ', error);
+            return Promise.reject(error)
+        })
+    }
+
+    async favoritarProduto(token, data){
+        return axios({
+            url: Config.API_URL + "storeProducts/manageFavorite/",
+            method: "POST",
+            timeout: Config.TIMEOUT_REQUEST,
+            data: data,
+            headers: {
+                Accept: 'application/json',
+                Authorization: 'Bearer ' + token
+            }
+        }).then((response) => {
+            return Promise.resolve(response)
+        }).catch((error) => {
+            console.log('--------- Erro ao favoritar produto! : ', error);
             return Promise.reject(error)
         })
     }

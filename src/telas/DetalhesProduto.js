@@ -42,7 +42,7 @@ export default function DetalhesProduto({ route }) {
     return <View style={estilos.container}>
         <View style={estilos.header}>
             <Text style={Styles.tituloSecundario}>Detalhes do Produto</Text>
-            { !detalheProduto.favorite && <Image source={ getImagem(detalheProduto.favorite) } style={estilos.estrela}/>}
+            <Image source={ getImagem(detalheProduto.favorite) } style={estilos.estrela}/>
         </View>
         <Text style={estilos.nome} lineBreakMode="true">{detalheProduto.name}</Text>
 
