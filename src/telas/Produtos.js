@@ -7,7 +7,7 @@ import Styles from "../MainStyle";
 
 
 
-export default function Produtos(){
+export default function Produtos({navigation}){
 
     const [token, setToken] = useContext(LoginContext);
     const [listaProdutos, setlistaProdutos] = useState([]);

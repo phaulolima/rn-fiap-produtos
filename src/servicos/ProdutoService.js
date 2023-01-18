@@ -22,6 +22,26 @@ class ProdutoService {
             return Promise.reject(error)
         })
     }
+
+    async detalharProduto(token, idProduto){
+        return axios({
+
+            url: Config.API_URL + `storeProducts/product/${idProduto}`,
+            method: "GET",
+            timeout: Config.TIMEOUT_REQUEST,
+            headers: {
+                Accept: 'application/json',
+                Authorization: 'Bearer ' + token
+            }
+        }).then((response) => {
+            console.log("-------- Passou no sucesso detalhar!");
+            console.log(response.data.totalItems);
+            return Promise.resolve(response)
+        }).catch((error) => {
+            console.log('--------- Erro ao detalhar produtos! : ', error);
+            return Promise.reject(error)
+        })
+    }
  
 }
 

@@ -2,11 +2,12 @@ import React from "react";
 import { Text, View, StyleSheet, Image } from "react-native";
 import estrela from '../assets/estrela.png';
 import estrelaCinza from '../assets/estrelaCinza.png';
+import { useNavigation } from "@react-navigation/native";
+
 
 
 export default function ItemLista({ item: {name, price, favorite }}) {
     
-
     const getImagem = (favorite) => {
         if (favorite) {
             return estrela;
@@ -14,9 +15,11 @@ export default function ItemLista({ item: {name, price, favorite }}) {
         return estrelaCinza;
     }
 
-    return <View style={estilos.item}>
+    return <View style={estilos.item} >
             <Image source={ getImagem(favorite) } style={estilos.estrela}/>
-            <Text lineBreakMode="true" style={estilos.nome}>{name}</Text>
+            <Text lineBreakMode="true" style={estilos.nome} 
+                onPress={ () => alert("Detalhar")} >
+                {name} </Text>
             <Text style={estilos.preco}>R$ {price}</Text>
         </View>
 }
