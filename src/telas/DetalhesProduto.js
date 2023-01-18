@@ -1,6 +1,8 @@
 import React, { useEffect, useContext, useState } from "react";
 import { View, Text } from "react-native";
 import produtoService from "../servicos/ProdutoService";
+import LoginContext from "../context/LoginContext";
+
 
 
 export default function DetalhesProduto({ route }) {
@@ -8,14 +10,16 @@ export default function DetalhesProduto({ route }) {
     const [token, setToken] = useContext(LoginContext);
     const [detalheProduto, setDetalheProduto] = useState({});
 
+    console.log("route: ", route.params);
 
-    
+    const produtoSelecionado = route.params;
+
 
     async function detalharProduto() {
-        const resultListar =  await produtoService.detalharProduto(token, idProduto);
+        const resultListar =  await produtoService.detalharProduto(token, produtoSelecionado._id);
             if (resultListar.status === 200) {
-                setDetalheProduto(resultListar.data);
-                console.log("=======> DetalheProduto: ", detalheProduto);
+                setDetalheProduto(resultListar.data.product);
+                console.log("=======> DetalheProduto: ", resultListar.data.product);
             } 
     }
 
@@ -24,8 +28,6 @@ export default function DetalhesProduto({ route }) {
     }, []);
 
     return <View>
-        <Text>Tela Detalhes do Produto</Text>
-        <Text>{route.params.idProduto}</Text>
-        DetalhesProduto
+        <Text>{detalheProduto.name}</Text>
     </View>
 }

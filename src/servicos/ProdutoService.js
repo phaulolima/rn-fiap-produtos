@@ -24,8 +24,9 @@ class ProdutoService {
     }
 
     async detalharProduto(token, idProduto){
+        console.log(token);
+        console.log(idProduto);
         return axios({
-
             url: Config.API_URL + `storeProducts/product/${idProduto}`,
             method: "GET",
             timeout: Config.TIMEOUT_REQUEST,
@@ -34,8 +35,6 @@ class ProdutoService {
                 Authorization: 'Bearer ' + token
             }
         }).then((response) => {
-            console.log("-------- Passou no sucesso detalhar!");
-            console.log(response.data.totalItems);
             return Promise.resolve(response)
         }).catch((error) => {
             console.log('--------- Erro ao detalhar produtos! : ', error);

@@ -13,10 +13,11 @@ const Stack = createNativeStackNavigator();
 
 
 function Rotas() {
-  return <Stack.Navigator>
+  return <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Login" component={Login}/>
       <Stack.Screen name="Produtos" component={MenuDrawer}/>
       <Stack.Screen name="Cadastro" component={CadastroUsuario}/>
+      <Stack.Screen name="Detalhes" component={DetalhesProduto}/>
     </Stack.Navigator>
 }
 

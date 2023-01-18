@@ -47,7 +47,13 @@ export default function Produtos({navigation}){
         <FlatList
             data={listaProdutos}
             ListHeaderComponent={TopoLista}
-            renderItem={ItemLista}
+            renderItem={
+                ({ item }) => <ItemLista 
+                    {...item}
+                    aoPressionar={() => {
+                        navigation.navigate('Detalhes', item);
+                }} />
+            }
             ListFooterComponent={Loading(maisPaginas)}
             onEndReached={listarProdutos}
             onEndReachedThreshold={0.1}

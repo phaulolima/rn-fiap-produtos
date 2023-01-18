@@ -6,7 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 
 
 
-export default function ItemLista({ item: {name, price, favorite }}) {
+export default function ItemLista({name, price, favorite, aoPressionar}) {
     
     const getImagem = (favorite) => {
         if (favorite) {
@@ -18,12 +18,11 @@ export default function ItemLista({ item: {name, price, favorite }}) {
     return <View style={estilos.item} >
             <Image source={ getImagem(favorite) } style={estilos.estrela}/>
             <Text lineBreakMode="true" style={estilos.nome} 
-                onPress={ () => alert("Detalhar")} >
+                onPress={aoPressionar} >
                 {name} </Text>
             <Text style={estilos.preco}>R$ {price}</Text>
         </View>
 }
-
 
 const estilos =  StyleSheet.create({
     item: {
