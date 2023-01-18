@@ -8,6 +8,7 @@ import LoginContext from "./src/context/LoginContext";
 import CadastroUsuario from "./src/telas/CadastroUsuario";
 import DetalhesProduto from "./src/telas/DetalhesProduto";
 import MenuDrawer from "./src/rotas/MenuDrawer";
+import Topo from "./src/telas/Topo";
 
 const Stack = createNativeStackNavigator();
 
@@ -25,7 +26,7 @@ export default function App() {
   const [token, setToken] = useState({token: "TOKEN_ZERADO"});
   return <NavigationContainer>
               <SafeAreaView style={{ flex: 1 }}>
-                <Text style={estilos.tituloApp}>FIAP APP</Text>
+                <Topo/>
                 <StatusBar />
                   <LoginContext.Provider value={[token, setToken]}>
                     <Rotas />
@@ -34,12 +35,3 @@ export default function App() {
         </NavigationContainer> 
 }
 
-const estilos = StyleSheet.create({
-  tituloApp: {
-    fontSize: 24,
-    textAlign: "center",
-    padding: 5,
-    fontWeight: "bold",
-    color: "rgb(237, 20, 91);"
-  }
-});

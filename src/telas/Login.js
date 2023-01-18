@@ -81,7 +81,4 @@ export default function Login(){
 }
 
 
-const estilos = StyleSheet.create({
-
-
-  });
+const estilos = StyleSheet.create({});
