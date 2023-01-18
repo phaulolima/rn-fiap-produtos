@@ -39,7 +39,7 @@ export default function Produtos({navigation}){
 
     const TopoLista = () => {
         return <>
-            <Text style={Styles.tituloSecundario}>Os melhores produtos...</Text>
+            <Text style={Styles.tituloSecundario}>Escolha um produto!</Text>
         </>
     }
 

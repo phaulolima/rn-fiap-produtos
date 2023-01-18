@@ -10,7 +10,7 @@ const Styles = StyleSheet.create({
 
 
   tituloSecundario: {
-    width: "100%",
+    width: "85%",
     position: "relative",
     textAlign: "left",
     fontSize: 24,
