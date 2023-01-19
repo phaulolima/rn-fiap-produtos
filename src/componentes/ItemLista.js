@@ -12,6 +12,7 @@ export default function ItemLista({name, price, favorite, _id, aoPressionar}) {
 
     const [isLoading, setLoading] = useState(false);
     const [token, setToken] = useContext(LoginContext);
+    const [ estadoFavorito, setEstadoFavorito ] = useState(favorite);
 
     const navigation = useNavigation();
 
@@ -25,6 +26,7 @@ export default function ItemLista({name, price, favorite, _id, aoPressionar}) {
         produtoService.favoritarProduto(token, requisicaoFavotirar).then((response) => {
             if(response.status === 200){
                 setLoading(false);
+                setEstadoFavorito(!estadoFavorito);
             } else {
                 setLoading(false);
             }
@@ -38,48 +40,67 @@ export default function ItemLista({name, price, favorite, _id, aoPressionar}) {
         return estrelaCinza;
     }
 
-    return <View style={estilos.item} >
-            <TouchableOpacity onPress={() => favoritarProduto()}>
-                <Image  source={ getImagem(favorite) } style={estilos.estrela}/>
-            </TouchableOpacity>
-            { isLoading && 
-                <ActivityIndicator />
-            }
+    return <View style={estilos.card} >
+
+            <View style={estilos.topCard}>
+                <Text style={estilos.preco}>R$ {price}</Text>
+                <View style={{ alignItems: "flex-end", width: "100%", position: "absolute"}}>
+                    { isLoading && 
+                        <ActivityIndicator style={estilos.activityIndicator}/>
+                    }
+                    <TouchableOpacity onPress={() => favoritarProduto()} style={estilos.containerEstrela}>
+                        { !isLoading && <Image source={ getImagem(estadoFavorito) } style={estilos.estrela}/>}
+                    </TouchableOpacity>
+                </View>
+            </View>
+
             <Text lineBreakMode="true" style={estilos.nome} 
                 onPress={aoPressionar} >
                 {name} </Text>
-            <Text style={estilos.preco}>R$ {price}</Text>
+            
         </View>
 }
 
 const estilos =  StyleSheet.create({
-    item: {
-        flexDirection: "row",
-        borderBottomWidth: 1,
-        borderBottomColor: "#ECECEC",
-        paddingVertical: 16,
+    card: {
+        elevation: 4,
+        backgroundColor: '#F6F6F6',
+        marginVertical: 6,
         marginHorizontal: 16,
-        alignItems: "center",
+        borderRadius: 6,
+        padding: 8
+    },
+    topCard: {
+        flexDirection: "row",
     },
     nome: {
         fontSize: 16,
         lineHeight: 26,
-        marginLeft: 11,
+        marginLeft: 5,
         color: "#464646",
-        width: "67%"
+      
+
       },
     preco: {
-        fontSize: 16,
+        fontSize: 18,
         lineHeight: 26,
-        marginLeft: 11,
+        marginLeft: 5,
         color: "#2A9F85",
         fontWeight: "bold",
+
     },
     estrela: {
         width: 24,
         height: 24,
-       
     },
+    containerEstrela: {
+        width: "8%",
+    },
+    activityIndicator:{
+        position: "absolute",
+        alignItems: "center",
+       
+    }
   });
   
 
