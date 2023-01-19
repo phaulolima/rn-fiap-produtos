@@ -9,7 +9,7 @@ export default function Topo(){
     const navigation = useNavigation();
 
     return <View style={estilos.viewContainer}>
-        <Text onPress={() => navigation.goBack()} style={estilos.tituloApp}>FIAP APPP</Text>
+        <Text onPress={() => navigation.goBack()} style={estilos.tituloApp}>FIAP APP</Text>
         <TouchableOpacity 
           onPress={() => { navigation.goBack() }}
           style={estilos.botaoVoltar}>

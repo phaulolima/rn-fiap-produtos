@@ -63,7 +63,15 @@ export default function ItemLista({name, price, favorite, _id, aoPressionar}) {
 
 const estilos =  StyleSheet.create({
     card: {
+        // Android
         elevation: 4,
+
+        // iOS
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
         backgroundColor: '#F6F6F6',
         marginVertical: 6,
         marginHorizontal: 16,
