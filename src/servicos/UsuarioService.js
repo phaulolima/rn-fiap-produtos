@@ -7,7 +7,6 @@ class UsuarioService{
     
 
     async cadastrarUsuario(data){
-        console.log("Dados de cadastro: ", data)
         return axios({
             url: Config.API_URL + "storeProducts/signup",
             method: "PUT",
@@ -15,10 +14,8 @@ class UsuarioService{
             data: data,
             headers: Config.HEADER_REQUEST
         }).then((response) => {
-            console.log('Response 200 - Cadastrar usuário: ', response);
             return Promise.resolve(response)
         }).catch((error) => {
-            console.log('Response cadastrar: ', error);
             return Promise.reject(error)
         })
     }
@@ -36,7 +33,6 @@ class UsuarioService{
             const nomeUsuario = AsyncStorage.getItem("NOME_USUARIO");
             return Promise.resolve(response)
         }).catch((error) => {
-            console.log('Erro login: ', error);
             return Promise.reject(error)
         })
     }

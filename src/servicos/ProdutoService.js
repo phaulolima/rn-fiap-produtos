@@ -14,18 +14,29 @@ class ProdutoService {
                 Authorization: 'Bearer ' + token
             }
         }).then((response) => {
-            console.log("-------- Passou no sucesso do listar!");
-            console.log(response.data.totalItems);
             return Promise.resolve(response)
         }).catch((error) => {
-            console.log('--------- Erro ao listar produtos! : ', error);
+            return Promise.reject(error)
+        })
+    }
+
+    async listarProdutosFavoritos(token){
+        return axios({
+            url: Config.API_URL + "storeProducts/getFavProducts",
+            method: "GET",
+            timeout: Config.TIMEOUT_REQUEST,
+            headers: {
+                Accept: 'application/json',
+                Authorization: 'Bearer ' + token
+            }
+        }).then((response) => {
+            return Promise.resolve(response)
+        }).catch((error) => {
             return Promise.reject(error)
         })
     }
 
     async detalharProduto(token, idProduto){
-        console.log(token);
-        console.log(idProduto);
         return axios({
             url: Config.API_URL + `storeProducts/product/${idProduto}`,
             method: "GET",
@@ -37,7 +48,6 @@ class ProdutoService {
         }).then((response) => {
             return Promise.resolve(response)
         }).catch((error) => {
-            console.log('--------- Erro ao detalhar produto! : ', error);
             return Promise.reject(error)
         })
     }
@@ -55,7 +65,6 @@ class ProdutoService {
         }).then((response) => {
             return Promise.resolve(response)
         }).catch((error) => {
-            console.log('--------- Erro ao favoritar produto! : ', error);
             return Promise.reject(error)
         })
     }

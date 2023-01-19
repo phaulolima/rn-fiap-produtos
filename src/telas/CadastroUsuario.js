@@ -39,7 +39,6 @@ export default function CadastroUsuario() {
     const cadastrarUsuario = () => {
         setLoading(true);
         usuarioService.cadastrarUsuario(dadosCadastro).then((response) => {
-            console.log("********", response.status)
             if(response.status === 200){
                 setLoading(false);
                 navigation.navigate('Login');

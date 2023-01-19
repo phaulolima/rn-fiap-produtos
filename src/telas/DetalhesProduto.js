@@ -12,43 +12,45 @@ export default function DetalhesProduto({ route }) {
 
 
     function getImagem (favorite) {
-        console.log("favorite +++", favorite);
         if (favorite) {
             return estrela;
         } 
         return estrelaCinza;
     }
+    /* Não mudar essa constante de ordem com as demais */
+    const {_id, favorite, name, price} = route.params;
 
     const [token, setToken] = useContext(LoginContext);
     const [detalheProduto, setDetalheProduto] = useState({});
+    const [ estadoFavorito, setEstadoFavorito ] = useState(favorite);
 
-    console.log("route: ", route.params);
-
-    const produtoSelecionado = route.params;
 
 
     async function detalharProduto() {
-        const resultListar =  await produtoService.detalharProduto(token, produtoSelecionado._id);
+        const resultListar =  await produtoService.detalharProduto(token, _id);
             if (resultListar.status === 200) {
                 setDetalheProduto(resultListar.data.product);
-                console.log("=======> DetalheProduto: ", resultListar.data.product);
             } 
     }
 
     useEffect(() => {
+        console.log(estadoFavorito);
+        if (estadoFavorito === undefined) {
+            setEstadoFavorito(true);
+        }
         detalharProduto();
     }, []);
 
     return <View style={estilos.container}>
         <View style={estilos.header}>
             <Text style={Styles.tituloSecundario}>Detalhes do Produto</Text>
-            <Image source={ getImagem(detalheProduto.favorite) } style={estilos.estrela}/>
+            <Image source={ getImagem(estadoFavorito) } style={estilos.estrela}/>
         </View>
-        <Text style={estilos.nome} lineBreakMode="true">{detalheProduto.name}</Text>
+        <Text style={estilos.nome} lineBreakMode="true">{name}</Text>
 
         <View style={estilos.precoView}>
             <Text>MENOR PREÇO ENCONTRADO</Text>
-            <Text style={estilos.preco}>R$ {detalheProduto.price}</Text>
+            <Text style={estilos.preco}>R$ {price}</Text>
         </View>
     </View>
 }

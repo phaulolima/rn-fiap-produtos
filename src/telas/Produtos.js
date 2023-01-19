@@ -20,14 +20,11 @@ export default function Produtos({navigation}){
             if (resultListar.status === 200) {
                 const listaAtual = resultListar.data.products;
                 setlistaProdutos(prev => [...prev, ...listaAtual]);
-                console.log("length: ", listaProdutos.length);
                 if (resultListar.data.totalItems > listaProdutos.length) {
                     setPagina(prev => prev + 1);
                 } else {
                     setMaisPaginas(false);
                 }
-
-                console.log("Pagina: ", pagina);
             } 
     }
  
