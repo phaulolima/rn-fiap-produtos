@@ -1,6 +1,7 @@
 import React from "react";
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import BotaoFavoritar from "./botaoFavoritar";
+import FormatCurrency from "../componentes/formatCurrency";
 
 
 export default function ItemLista({name, price, favorite, _id, aoPressionar}) {
@@ -8,7 +9,7 @@ export default function ItemLista({name, price, favorite, _id, aoPressionar}) {
 
     return <TouchableOpacity style={estilos.card} onPress={aoPressionar}>
             <View style={estilos.topCard}>
-                <Text style={estilos.preco}>R$ {price}</Text>
+                <FormatCurrency amount={price} style={estilos.preco}/>
                 <View style={estilos.viewFavoritar}>
                    <BotaoFavoritar favorite={favorite} id={_id}/>
                 </View>

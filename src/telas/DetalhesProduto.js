@@ -5,7 +5,8 @@ import LoginContext from "../context/LoginContext";
 import estrela from "../assets/estrela.png";
 import estrelaCinza from "../assets/estrelaCinza.png";
 import Styles from "../MainStyle";
-
+import BotaoFavoritar from "../componentes/botaoFavoritar";
+import FormatCurrency from "../componentes/formatCurrency";
 
 
 export default function DetalhesProduto({ route }) {
@@ -44,13 +45,15 @@ export default function DetalhesProduto({ route }) {
     return <View style={estilos.container}>
         <View style={estilos.header}>
             <Text style={Styles.tituloSecundario}>Detalhes do Produto</Text>
-            <Image source={ getImagem(estadoFavorito) } style={estilos.estrela}/>
+            <View style={estilos.estrela}>
+                <BotaoFavoritar favorite={favorite} id={_id}/>
+            </View>
         </View>
         <Text style={estilos.nome} lineBreakMode="true">{name}</Text>
 
         <View style={estilos.precoView}>
             <Text>MENOR PREÇO ENCONTRADO</Text>
-            <Text style={estilos.preco}>R$ {price}</Text>
+            <FormatCurrency amount={price} style={estilos.preco}/>
         </View>
     </View>
 }
@@ -98,9 +101,9 @@ const estilos =  StyleSheet.create({
     estrela: {
         width: 24,
         height: 24,
-        margin: 15,
         flexDirection: "row-reverse",
-        
+        marginBottom: "4%",
+        marginLeft: "10%"
     },
     header: {
         flexDirection: "row",

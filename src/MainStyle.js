@@ -8,7 +8,6 @@ const Styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
 
-
   tituloSecundario: {
     width: "85%",
     position: "relative",
