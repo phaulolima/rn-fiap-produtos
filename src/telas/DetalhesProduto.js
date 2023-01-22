@@ -12,20 +12,13 @@ import LojasMaps from "../componentes/lojasMaps";
 
 export default function DetalhesProduto({ route }) {
 
-
-    function getImagem (favorite) {
-        if (favorite) {
-            return estrela;
-        } 
-        return estrelaCinza;
-    }
     /* Não mudar essa constante de ordem com as demais */
     const {_id, favorite, name, price} = route.params;
 
     const [token, setToken] = useContext(LoginContext);
     const [detalheProduto, setDetalheProduto] = useState({});
     const [lojas, setLojas] = useState([]);
-    const [ estadoFavorito, setEstadoFavorito ] = useState(favorite);
+    const [ estadoFavorito, setEstadoFavorito ] = useState(favorite === undefined? true :  favorite);
 
 
 
@@ -38,10 +31,6 @@ export default function DetalhesProduto({ route }) {
     }
 
     useEffect(() => {
-        console.log(estadoFavorito);
-        if (estadoFavorito === undefined) {
-            setEstadoFavorito(true);
-        }
         detalharProduto();
     }, []);
 
@@ -49,7 +38,7 @@ export default function DetalhesProduto({ route }) {
         <View style={estilos.header}>
             <Text style={Styles.tituloSecundario}>Detalhes do Produto</Text>
             <View style={estilos.estrela}>
-                <BotaoFavoritar favorite={detalheProduto.favorite} id={_id}/>
+                <BotaoFavoritar favorite={favorite} id={_id}/>
             </View>
         </View>
         <Text style={estilos.nome} lineBreakMode="true">{detalheProduto.name}</Text>
@@ -58,7 +47,7 @@ export default function DetalhesProduto({ route }) {
             <Text>MENOR PREÇO ENCONTRADO</Text>
             <FormatCurrency amount={detalheProduto.price} style={estilos.preco}/>
         </View>
-        <LojasMaps lojas={lojas}/>
+        
        
     </View>
 }

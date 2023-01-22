@@ -9,7 +9,7 @@ export default function LojasMaps({lojas = [name, address, latitude, longitude]}
     let [regiao, setRegiao] = useState({
         latitude: 0,
         longitude: 0,
-        latitudeDelta: 0.0015,
+        latitudeDelta: 0.055,
         longitudeDelta: 0.055,
     });
 
@@ -19,11 +19,12 @@ export default function LojasMaps({lojas = [name, address, latitude, longitude]}
           posicao => {
             console.log(posicao);
             console.log("Latitude: ", posicao.coords.latitude);
-            console.log('Longitude: ', posicao.coords.longitude)
+            console.log('Longitude: ', posicao.coords.longitude);
+            //console.log('Lojas:', lojas);
             setRegiao({
               latitude: posicao.coords.latitude,
               longitude: posicao.coords.longitude,
-              latitudeDelta: 0.0015,
+              latitudeDelta: 0.055,
               longitudeDelta: 0.055,
             })
           }
@@ -38,18 +39,21 @@ export default function LojasMaps({lojas = [name, address, latitude, longitude]}
           region={regiao}
           showsUserLocation>
           <Marker 
+            title={lojas[0]?.name}
             coordinate={{
               latitude: lojas[0]?.latitude ? lojas[0]?.latitude : 0,
               longitude : lojas[0]?.longitude ? lojas[0]?.longitude : 0,
             }}
           />
           <Marker 
+            title={lojas[1]?.name}
             coordinate={{
               latitude: lojas[1]?.latitude ? lojas[1]?.latitude : 0,
               longitude : lojas[1]?.longitude ? lojas[1]?.longitude : 0,
             }}
           />
-          <Marker 
+          <Marker
+            title={lojas[2]?.name}
             coordinate={{
               latitude: lojas[2]?.latitude ? lojas[2]?.latitude : 0,
               longitude : lojas[2]?.longitude ? lojas[2]?.longitude : 0,

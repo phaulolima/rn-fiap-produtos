@@ -11,7 +11,7 @@ export default function BotaoFavoritar({favorite, id}) {
 
     const [isLoading, setLoading] = useState(false);
     const [token, setToken] = useContext(LoginContext);
-    const [ estadoFavorito, setEstadoFavorito ] = useState(favorite);
+    const [ estadoFavorito, setEstadoFavorito ] = useState(favorite === undefined? true :  favorite);
 
     let requisicaoFavotirar = {
         productID: id,
@@ -32,8 +32,9 @@ export default function BotaoFavoritar({favorite, id}) {
     const getImagem = (favorite) => {
         if (favorite || favorite === undefined) {
             return estrela;
-        } 
-        return estrelaCinza;
+        } else {
+            return estrelaCinza;
+        }
     }
 
     return  <>
