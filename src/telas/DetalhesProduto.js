@@ -7,6 +7,7 @@ import estrelaCinza from "../assets/estrelaCinza.png";
 import Styles from "../MainStyle";
 import BotaoFavoritar from "../componentes/botaoFavoritar";
 import FormatCurrency from "../componentes/formatCurrency";
+import LojasMaps from "../componentes/lojasMaps";
 
 
 export default function DetalhesProduto({ route }) {
@@ -23,6 +24,7 @@ export default function DetalhesProduto({ route }) {
 
     const [token, setToken] = useContext(LoginContext);
     const [detalheProduto, setDetalheProduto] = useState({});
+    const [lojas, setLojas] = useState([]);
     const [ estadoFavorito, setEstadoFavorito ] = useState(favorite);
 
 
@@ -31,6 +33,7 @@ export default function DetalhesProduto({ route }) {
         const resultListar =  await produtoService.detalharProduto(token, _id);
             if (resultListar.status === 200) {
                 setDetalheProduto(resultListar.data.product);
+                setLojas(resultListar.data.product.stores);
             } 
     }
 
@@ -46,15 +49,17 @@ export default function DetalhesProduto({ route }) {
         <View style={estilos.header}>
             <Text style={Styles.tituloSecundario}>Detalhes do Produto</Text>
             <View style={estilos.estrela}>
-                <BotaoFavoritar favorite={favorite} id={_id}/>
+                <BotaoFavoritar favorite={detalheProduto.favorite} id={_id}/>
             </View>
         </View>
-        <Text style={estilos.nome} lineBreakMode="true">{name}</Text>
+        <Text style={estilos.nome} lineBreakMode="true">{detalheProduto.name}</Text>
 
         <View style={estilos.precoView}>
             <Text>MENOR PREÇO ENCONTRADO</Text>
-            <FormatCurrency amount={price} style={estilos.preco}/>
+            <FormatCurrency amount={detalheProduto.price} style={estilos.preco}/>
         </View>
+        <LojasMaps lojas={lojas}/>
+       
     </View>
 }
 
