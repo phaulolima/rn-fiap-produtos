@@ -10,13 +10,18 @@ export default function ProdutosFavoritos({navigation}) {
 
     const [token, setToken] = useContext(LoginContext);
     const [listaProdutos, setlistaProdutos] = useState([]);
+    const [isLoading, setLoading] = useState(false);
   
     async function listarProdutosFavoritos() {
-    const resultListar =  await produtoService.listarProdutosFavoritos(token);
-        if (resultListar.status === 200) {
-            const listaAtual = resultListar.data.products;
-            setlistaProdutos(listaAtual);
-        } 
+        setLoading(true)
+        const resultListar =  await produtoService.listarProdutosFavoritos(token);
+            if (resultListar.status === 200) {
+                setLoading(false);
+                const listaAtual = resultListar.data.products;
+                setlistaProdutos(listaAtual);
+            } else {
+                setLoading(false);
+            }
     }
 
     useEffect(() => {
@@ -31,17 +36,22 @@ export default function ProdutosFavoritos({navigation}) {
     }
 
     return <>
-        <FlatList
-            data={listaProdutos}
-            ListHeaderComponent={TopoLista}
-            renderItem={
-                ({ item }) => <ItemLista 
-                    {...item}
-                    aoPressionar={() => {
-                        navigation.navigate('Detalhes', item);
-                }} />
-            }
-        />
+        { isLoading &&
+          <ActivityIndicator style={estilos.activityIndicator}/>
+        }
+        { !isLoading &&        
+            <FlatList
+                data={listaProdutos}
+                ListHeaderComponent={TopoLista}
+                renderItem={
+                    ({ item }) => <ItemLista 
+                        {...item}
+                        aoPressionar={() => {
+                            navigation.navigate('Detalhes', item);
+                    }} />
+                }
+            />
+        }
     </>
 }
 

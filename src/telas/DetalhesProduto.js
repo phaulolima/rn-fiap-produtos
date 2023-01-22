@@ -1,9 +1,7 @@
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
 import React, { useEffect, useContext, useState } from "react";
 import produtoService from "../servicos/ProdutoService";
 import LoginContext from "../context/LoginContext";
-import estrela from "../assets/estrela.png";
-import estrelaCinza from "../assets/estrelaCinza.png";
 import Styles from "../MainStyle";
 import BotaoFavoritar from "../componentes/botaoFavoritar";
 import FormatCurrency from "../componentes/formatCurrency";
@@ -15,6 +13,7 @@ export default function DetalhesProduto({ route }) {
     /* Não mudar essa constante de ordem com as demais */
     const {_id, favorite, name, price} = route.params;
 
+    const [isLoading, setLoading] = useState(false);
     const [token, setToken] = useContext(LoginContext);
     const [detalheProduto, setDetalheProduto] = useState({});
     const [lojas, setLojas] = useState([]);
@@ -23,33 +22,43 @@ export default function DetalhesProduto({ route }) {
 
 
     async function detalharProduto() {
+        setLoading(true);
         const resultListar =  await produtoService.detalharProduto(token, _id);
             if (resultListar.status === 200) {
+                setLoading(false);
                 setDetalheProduto(resultListar.data.product);
                 setLojas(resultListar.data.product.stores);
-            } 
+            } else {
+                setLoading(false);
+            }
     }
 
     useEffect(() => {
         detalharProduto();
     }, []);
 
-    return <View style={estilos.container}>
-        <View style={estilos.header}>
-            <Text style={Styles.tituloSecundario}>Detalhes do Produto</Text>
-            <View style={estilos.estrela}>
-                <BotaoFavoritar favorite={favorite} id={_id}/>
+    return <>
+        { isLoading &&
+          <ActivityIndicator style={estilos.activityIndicator}/>
+        }
+        { !isLoading &&
+            <View style={estilos.container}>
+                <View style={estilos.header}>
+                    <Text style={Styles.tituloSecundario}>Detalhes do Produto</Text>
+                    <View style={estilos.estrela}>
+                        <BotaoFavoritar favorite={favorite} id={_id}/>
+                    </View>
+                </View>
+                <Text style={estilos.nome} lineBreakMode="true">{detalheProduto.name}</Text>
+                <View style={estilos.precoView}>
+                    <Text>MENOR PREÇO ENCONTRADO</Text>
+                    <FormatCurrency amount={detalheProduto.price} style={estilos.preco}/>
+                </View>
+                <LojasMaps lojas={lojas}/>
             </View>
-        </View>
-        <Text style={estilos.nome} lineBreakMode="true">{detalheProduto.name}</Text>
-
-        <View style={estilos.precoView}>
-            <Text>MENOR PREÇO ENCONTRADO</Text>
-            <FormatCurrency amount={detalheProduto.price} style={estilos.preco}/>
-        </View>
-        
-       
-    </View>
+        }
+    </>
+    
 }
 
 const estilos =  StyleSheet.create({
