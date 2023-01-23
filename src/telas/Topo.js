@@ -4,17 +4,19 @@ import { useNavigation } from "@react-navigation/native";
 import VoltarSVG from '../assets/voltar.svg';
 
 
-export default function Topo(){
+export default function Topo({exibeVoltar = false}){
 
     const navigation = useNavigation();
 
     return <View style={estilos.viewContainer}>
-        <Text onPress={() => navigation.goBack()} style={estilos.tituloApp}>FIAP APP</Text>
-        <TouchableOpacity 
-          onPress={() => { navigation.goBack() }}
-          style={estilos.botaoVoltar}>
-          <VoltarSVG style={estilos.voltar} />
-        </TouchableOpacity>
+        <Text style={estilos.tituloApp}>FIAP APP</Text>
+        { exibeVoltar && 
+          <TouchableOpacity 
+            onPress={() => { navigation.goBack() }}
+            style={estilos.botaoVoltar}>
+            <VoltarSVG style={estilos.voltar} />
+          </TouchableOpacity>
+        }
     </View>
 }
 
@@ -23,6 +25,7 @@ const estilos = StyleSheet.create({
     viewContainer: {
       width: "100%",
       height: "10%",
+      backgroundColor: "#DCDCDC"
     },
     tituloApp: {
       fontSize: 24,

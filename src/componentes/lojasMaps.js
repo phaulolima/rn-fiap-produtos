@@ -52,7 +52,7 @@ export default function LojasMaps({lojas = [name, address, latitude, longitude]}
       let arrayLojas = [];
       for (let index = 0; index < lojas.length; index++) {
         arrayLojas.push(
-          <Text style={estilos.nomeLoja}> - {lojas[index]?.name}</Text>
+          <Text key={lojas[index]?.name} style={estilos.nomeLoja}> - {lojas[index]?.name}</Text>
         );
       }
       return arrayLojas;

@@ -10,12 +10,16 @@ import Styles from "../MainStyle";
 import usuarioService from "../servicos/UsuarioService";
 import LoginContext from "../context/LoginContext";
 import { useEffect } from "react";
+import Topo from "./Topo";
 
 
 export default function Login({ route }) {
 
-    console.log("route.params", route.name);
-    if (route.name === "Sair") {
+    if (route) {
+        console.log("route.params", route);
+    }
+    if (route && route.name === "Sair") {
+        console.log("Entrou no apagar senha!");
         AsyncStorage.setItem("SENHA_FIAP_LOGIN", "");
     }
     const iconeEvelope = <FontAwesomeIcon icon={ faEnvelope } />;
@@ -70,7 +74,8 @@ export default function Login({ route }) {
         loginAutomatico();
     }, []);
 
-    return (
+    return ( <>
+        <Topo exibeVoltar={false}/>
         <View style={Styles.viewContainer}>
             <Text>Fazer login</Text>
             <Input
@@ -103,6 +108,7 @@ export default function Login({ route }) {
                     <Text style={Styles.textoBotaoSecundario}>CRIAR CONTA</Text>
                 </TouchableOpacity>
         </View>
+        </>
     )     
 }
 

@@ -6,6 +6,7 @@ import Styles from "../MainStyle";
 import BotaoFavoritar from "../componentes/botaoFavoritar";
 import FormatCurrency from "../componentes/formatCurrency";
 import LojasMaps from "../componentes/lojasMaps";
+import Topo from "./Topo";
 
 
 export default function DetalhesProduto({ route }) {
@@ -43,6 +44,7 @@ export default function DetalhesProduto({ route }) {
         }
         { !isLoading &&
             <View style={estilos.container}>
+                <Topo exibeVoltar={true}/>
                 <View style={estilos.header}>
                     <Text style={Styles.tituloSecundario}>Detalhes do Produto</Text>
                     <View style={estilos.estrela}>

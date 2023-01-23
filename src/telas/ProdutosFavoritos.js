@@ -4,6 +4,7 @@ import produtoService from "../servicos/ProdutoService";
 import LoginContext from "../context/LoginContext";
 import ItemLista from "../componentes/ItemLista";
 import Styles from "../MainStyle";
+import Topo from "./Topo";
 
 
 export default function ProdutosFavoritos({navigation}) {
@@ -39,8 +40,9 @@ export default function ProdutosFavoritos({navigation}) {
         { isLoading &&
           <ActivityIndicator style={estilos.activityIndicator}/>
         }
-        { !isLoading &&        
-            <FlatList
+        { !isLoading    
+            && <Topo exibeVoltar={false}/>     
+            && <FlatList
                 data={listaProdutos}
                 ListHeaderComponent={TopoLista}
                 renderItem={

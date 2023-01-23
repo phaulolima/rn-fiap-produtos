@@ -4,6 +4,7 @@ import produtoService from "../servicos/ProdutoService";
 import LoginContext from "../context/LoginContext";
 import ItemLista from "../componentes/ItemLista";
 import Styles from "../MainStyle";
+import Topo from "./Topo";
 
 
 
@@ -41,6 +42,7 @@ export default function Produtos({navigation}){
     }
 
     return <>
+        <Topo exibeVoltar={false}/>
         <FlatList
             data={listaProdutos}
             ListHeaderComponent={TopoLista}

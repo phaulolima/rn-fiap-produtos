@@ -26,7 +26,6 @@ export default function App() {
   const [token, setToken] = useState({token: "TOKEN_ZERADO"});
   return <NavigationContainer>
               <SafeAreaView style={{ flex: 1 }}>
-                <Topo/>
                 <StatusBar />
                   <LoginContext.Provider value={[token, setToken]}>
                     <Rotas />
