@@ -37,11 +37,12 @@ export default function ProdutosFavoritos({navigation}) {
     }
 
     return <>
+        <Topo exibeVoltar={true}/>   
         { isLoading &&
           <ActivityIndicator style={estilos.activityIndicator}/>
         }
         { !isLoading    
-            && <Topo exibeVoltar={false}/>     
+              
             && <FlatList
                 data={listaProdutos}
                 ListHeaderComponent={TopoLista}

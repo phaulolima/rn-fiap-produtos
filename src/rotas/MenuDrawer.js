@@ -12,7 +12,7 @@ export default function MenuDrawer() {
     return <Drawer.Navigator>
       <Drawer.Screen name="Lista de Produtos" component={Produtos}/>
       <Drawer.Screen name="Produtos Favoritos" component={ProdutosFavoritos}/>
-      <Drawer.Screen name="Sair" component={Login}/>
+      <Drawer.Screen name="Sair" component={Login} options={{headerShown: false }}/>
     </Drawer.Navigator>
 
 }
