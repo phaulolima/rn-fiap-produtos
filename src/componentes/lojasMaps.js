@@ -20,7 +20,6 @@ export default function LojasMaps({lojas = [name, address, latitude, longitude]}
             console.log(posicao);
             console.log("Latitude: ", posicao.coords.latitude);
             console.log('Longitude: ', posicao.coords.longitude);
-            //console.log('Lojas:', lojas);
             setRegiao({
               latitude: posicao.coords.latitude,
               longitude: posicao.coords.longitude,

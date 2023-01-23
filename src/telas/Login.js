@@ -9,16 +9,20 @@ import { useNavigation } from "@react-navigation/native";
 import Styles from "../MainStyle";
 import usuarioService from "../servicos/UsuarioService";
 import LoginContext from "../context/LoginContext";
+import { useEffect } from "react";
 
 
+export default function Login({ route }) {
 
-export default function Login(){
-
+    console.log("route.params", route.name);
+    if (route.name === "Sair") {
+        AsyncStorage.setItem("SENHA_FIAP_LOGIN", "");
+    }
     const iconeEvelope = <FontAwesomeIcon icon={ faEnvelope } />;
     const iconeCadeado = <FontAwesomeIcon icon= { faLock } />;
 
-    const [email, setEmail] = useState("phaulolima@gmail.com");
-    const [password, setPassword] = useState("12345678");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
     let dadosLogin = {
         email: email,
@@ -26,25 +30,45 @@ export default function Login(){
     };
 
     const [isLoading, setLoading] = useState(false);
-
     const [token, setToken] = useContext(LoginContext);
-
     const navigation = useNavigation();
 
 
-    const logar = () => {
+    async function logar() {
         setLoading(true);
-        usuarioService.logarUsuario(dadosLogin).then((response) => {
-            if(response.status === 200){
-                setLoading(false);
-                setToken(response.data.token);
-                navigation.navigate('Produtos');
-            } else {
-                setLoading(false);
-                Alert.alert("Erro", "Ops!!! 'Usuário' ou 'Senha' inválido(s)!");
-            }
-        })
+        const response =  await  usuarioService.logarUsuario(dadosLogin);
+        if(response.status === 200){
+            AsyncStorage.setItem("EMAIL_FIAP_LOGIN", dadosLogin.email);
+            AsyncStorage.setItem("SENHA_FIAP_LOGIN", dadosLogin.password);
+            setLoading(false);
+            setToken(response.data.token);
+            navigation.reset({
+                index: 0,
+                routes: [{name: "Produtos"}]
+                })
+        } else {
+            setLoading(false);
+            Alert.alert("Erro", "Ops!!! 'Usuário' ou 'Senha' inválido(s)!");
+        }
     };
+
+    async function loginAutomatico() {
+        const emailLogin =  await AsyncStorage.getItem("EMAIL_FIAP_LOGIN");
+        if (emailLogin.length > 0) {
+            setEmail(emailLogin);
+            dadosLogin.email = emailLogin;
+        }
+        const senhaLogin = await AsyncStorage.getItem("SENHA_FIAP_LOGIN");
+        if ((senhaLogin && senhaLogin.length) > 0 && (emailLogin &&emailLogin.length > 0)) {
+            setPassword(senhaLogin);
+            dadosLogin.password = senhaLogin;
+            logar();
+        }
+    }
+  
+    useEffect(() => {
+        loginAutomatico();
+    }, []);
 
     return (
         <View style={Styles.viewContainer}>
@@ -53,12 +77,14 @@ export default function Login(){
                 placeholder="E-mail"
                 leftIcon={iconeEvelope}
                 onChangeText={value => setEmail(value)}
-                keyboardType="email-address" />
+                keyboardType="email-address" 
+                value={email}/>
             <Input
                 placeholder="Senha"
                 leftIcon={iconeCadeado}
                 onChangeText={value => setPassword(value)}
-                secureTextEntry={true} />
+                secureTextEntry={true} 
+                value={password}/>
 
                 { isLoading && 
                     <ActivityIndicator />
@@ -77,8 +103,10 @@ export default function Login(){
                     <Text style={Styles.textoBotaoSecundario}>CRIAR CONTA</Text>
                 </TouchableOpacity>
         </View>
-    )
+    )     
 }
+
+
 
 
 const estilos = StyleSheet.create({});
