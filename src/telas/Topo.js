@@ -25,7 +25,8 @@ const estilos = StyleSheet.create({
     viewContainer: {
       width: "100%",
       height: "10%",
-      backgroundColor: "#DCDCDC"
+      minHeight: "10%",
+      backgroundColor: "#DCDCDC",
     },
     tituloApp: {
       fontSize: 24,

@@ -20,6 +20,7 @@ export default function Login({ route }) {
     }
     if (route && route.name === "Sair") {
         console.log("Entrou no apagar senha!");
+        route.name = "";
         AsyncStorage.setItem("SENHA_FIAP_LOGIN", "");
     }
     const iconeEvelope = <FontAwesomeIcon icon={ faEnvelope } />;
