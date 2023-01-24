@@ -1,15 +1,15 @@
-import React, {useState, useContext} from "react";
+import React, {useState, useContext, useEffect} from "react";
 import { Text, View, StyleSheet, TouchableOpacity, Alert, ActivityIndicator } from "react-native";
 import { Input } from 'react-native-elements';
 import AsyncStorage from "@react-native-async-storage/async-storage"
+import { useNavigation } from "@react-navigation/native";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons/';
-import { useNavigation } from "@react-navigation/native";
+import * as Yup from "yup";
 
 import Styles from "../MainStyle";
 import usuarioService from "../servicos/UsuarioService";
 import LoginContext from "../context/LoginContext";
-import { useEffect } from "react";
 import Topo from "./Topo";
 
 
@@ -23,6 +23,7 @@ export default function Login({ route }) {
         route.name = "";
         AsyncStorage.setItem("SENHA_FIAP_LOGIN", "");
     }
+
     const iconeEvelope = <FontAwesomeIcon icon={ faEnvelope } />;
     const iconeCadeado = <FontAwesomeIcon icon= { faLock } />;
 
@@ -37,6 +38,27 @@ export default function Login({ route }) {
     const [isLoading, setLoading] = useState(false);
     const [token, setToken] = useContext(LoginContext);
     const navigation = useNavigation();
+
+
+    async function validarLogar() {
+       try {
+
+        const schema = Yup.object().shape({
+            email: Yup.string().required("O E-mail é obrigatório!").email("Este e-mail não é válido!"),
+            password: Yup.string().required("A senha é obrigatória!")
+        })
+
+        await schema.validate({email, password});
+
+        Alert.alert("Passou!");
+        logar();
+
+       } catch (error) {
+            if (error instanceof Yup.ValidationError){
+                Alert.alert(error.message);
+            }
+       }
+    };
 
 
     async function logar() {
@@ -97,7 +119,7 @@ export default function Login({ route }) {
                 }
         
                 <TouchableOpacity 
-                    onPress={() => logar()} 
+                    onPress={() => validarLogar()} 
                     style={Styles.botaoPrincipal}
                     disabled={isLoading}>
                     <Text style={Styles.textoBotaoPrincipal}>ENTRAR</Text>
