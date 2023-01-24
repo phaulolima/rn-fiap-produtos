@@ -17,9 +17,6 @@ export default function LojasMaps({lojas = [name, address, latitude, longitude]}
     useEffect(() => {
         Geolocation.getCurrentPosition(
           posicao => {
-            console.log(posicao);
-            console.log("Latitude: ", posicao.coords.latitude);
-            console.log('Longitude: ', posicao.coords.longitude);
             setRegiao({
               latitude: posicao.coords.latitude,
               longitude: posicao.coords.longitude,

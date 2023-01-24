@@ -15,9 +15,6 @@ import Topo from "./Topo";
 
 export default function Login({ route }) {
 
-    if (route) {
-        console.log("route.params", route);
-    }
     if (route && route.name === "Sair") {
         console.log("Entrou no apagar senha!");
         route.name = "";
@@ -49,8 +46,6 @@ export default function Login({ route }) {
         })
 
         await schema.validate({email, password});
-
-        Alert.alert("Passou!");
         logar();
 
        } catch (error) {
