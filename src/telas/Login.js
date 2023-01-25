@@ -10,6 +10,7 @@ import * as Yup from "yup";
 import Styles from "../MainStyle";
 import usuarioService from "../servicos/UsuarioService";
 import LoginContext from "../context/LoginContext";
+import UsuarioContext from "../context/UsuarioContext";
 import Topo from "./Topo";
 
 
@@ -34,6 +35,7 @@ export default function Login({ route }) {
 
     const [isLoading, setLoading] = useState(false);
     const [token, setToken] = useContext(LoginContext);
+    const [usuario, setUsuario] = useContext(UsuarioContext);
     const navigation = useNavigation();
 
 
@@ -64,6 +66,7 @@ export default function Login({ route }) {
             AsyncStorage.setItem("SENHA_FIAP_LOGIN", dadosLogin.password);
             setLoading(false);
             setToken(response.data.token);
+            setUsuario(response.data.name);
             navigation.reset({
                 index: 0,
                 routes: [{name: "Produtos"}]

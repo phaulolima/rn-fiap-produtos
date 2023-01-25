@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Login from "./src/telas/Login";
 import Produtos from "./src/telas/Produtos";
 import LoginContext from "./src/context/LoginContext";
+import UsuarioContext from "./src/context/UsuarioContext";
 import CadastroUsuario from "./src/telas/CadastroUsuario";
 import DetalhesProduto from "./src/telas/DetalhesProduto";
 import MenuDrawer from "./src/rotas/MenuDrawer";
@@ -24,11 +25,15 @@ function Rotas() {
 
 export default function App() {
   const [token, setToken] = useState({token: "TOKEN_ZERADO"});
+  const [usuario, setUsuario] = useState({token: "CONVIDADO"});
+
   return <NavigationContainer>
               <SafeAreaView style={{ flex: 1 }}>
                 <StatusBar />
                   <LoginContext.Provider value={[token, setToken]}>
-                    <Rotas />
+                    <UsuarioContext.Provider value={[usuario, setUsuario]}>
+                      <Rotas />
+                    </UsuarioContext.Provider>
                   </LoginContext.Provider>
               </SafeAreaView>
         </NavigationContainer> 
