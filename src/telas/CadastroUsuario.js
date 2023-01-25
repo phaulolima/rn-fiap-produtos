@@ -4,10 +4,11 @@ import { Input } from 'react-native-elements';
 import { faEnvelope, faLock, faUser, faPhone } from '@fortawesome/free-solid-svg-icons/';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { useNavigation } from "@react-navigation/native";
+import * as Yup from "yup";
 
 import Styles from "../MainStyle";
 import usuarioService from "../servicos/UsuarioService";
-import * as Yup from "yup";
+import Topo from "./Topo";
 
 
 export default function CadastroUsuario() {
@@ -36,25 +37,22 @@ export default function CadastroUsuario() {
     };
 
      
-    const cadastrarUsuario = () => {
+    async function cadastrarUsuario() {
         setLoading(true);
-        usuarioService.cadastrarUsuario(dadosCadastro).then((response) => {
-            console.log("Response", response);
-            if(response){
-                setLoading(false);
-                navigation.navigate('Login');
-            } else {
-                setLoading(false);
-                Alert.alert("Erro", "Ops!!! 'Não foi possível realizar o seu cadastro!");
-            }
+        await usuarioService.cadastrarUsuario(dadosCadastro)
+        .then(response => {
+            setLoading(false)
+            navigation.navigate('Login')
+        })
+        .catch(error => {
+            setLoading(false)
+            Alert.alert("Ocorreu um erro: ", error.message)
         })
     };
 
     async function validarCadastrar() {
-       console.log("Passou!");
 
        const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
-
 
        try {
         const schema = Yup.object().shape({
@@ -75,39 +73,45 @@ export default function CadastroUsuario() {
        }
     };
      
-    return <View style={Styles.viewContainer}>
-        <Text style={Styles.tituloSecundario} >Cadastrar usuário</Text>
+    return <>
+        <Topo exibeVoltar={true}/>
+        <View style={Styles.viewContainer}>
+            <Text style={Styles.tituloSecundario} >Cadastrar usuário</Text>
 
-        <Input
-            placeholder="Nome"
-            leftIcon={iconePessoa}
-            onChangeText={value => setNome(value)}
-            keyboardType="default" />
-        <Input
-            placeholder="Telefone"
-            leftIcon={iconeTelefone}
-            onChangeText={value => setPhone(value)}
-            keyboardType="phone-pad" />
-        <Input
-            placeholder="E-mail"
-            leftIcon={iconeEvelope}
-            onChangeText={value => setEmail(value)}
-            keyboardType="email-address" />
-        <Input
-            placeholder="Senha"
-            leftIcon={iconeCadeado}
-            onChangeText={value => setPassword(value)}
-            secureTextEntry={true} />
+            <Input
+                placeholder="Nome"
+                leftIcon={iconePessoa}
+                onChangeText={value => setNome(value)}
+                keyboardType="default" />
+            <Input
+                placeholder="Telefone"
+                leftIcon={iconeTelefone}
+                onChangeText={value => setPhone(value)}
+                keyboardType="phone-pad" />
+            <Input
+                placeholder="E-mail"
+                leftIcon={iconeEvelope}
+                onChangeText={value => setEmail(value)}
+                keyboardType="email-address" />
+            <Input
+                placeholder="Senha"
+                leftIcon={iconeCadeado}
+                onChangeText={value => setPassword(value)}
+                secureTextEntry={true} />
 
-        { isLoading && 
-            <ActivityIndicator />
-        }
+            { isLoading && 
+                <ActivityIndicator />
+            }
 
-        <TouchableOpacity 
-            onPress={() => validarCadastrar()} 
-            style={Styles.botaoPrincipal}>
-            <Text style={Styles.textoBotaoPrincipal}>CADASTRAR</Text>
-        </TouchableOpacity>
-    </View>
+            <TouchableOpacity 
+                onPress={() => validarCadastrar()} 
+                style={Styles.botaoPrincipal}>
+                <Text style={Styles.textoBotaoPrincipal}>CADASTRAR</Text>
+            </TouchableOpacity>
+        </View>
+    
+    
+    </>
+        
     
 }
