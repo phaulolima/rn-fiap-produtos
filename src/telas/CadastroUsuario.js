@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { Text, View, TouchableOpacity, ActivityIndicator } from "react-native";
+import { Text, View, TouchableOpacity, Alert, ActivityIndicator } from "react-native";
 import { Input } from 'react-native-elements';
 import { faEnvelope, faLock, faUser, faPhone } from '@fortawesome/free-solid-svg-icons/';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -7,7 +7,7 @@ import { useNavigation } from "@react-navigation/native";
 
 import Styles from "../MainStyle";
 import usuarioService from "../servicos/UsuarioService";
-import LoginContext from "../context/LoginContext";
+import * as Yup from "yup";
 
 
 export default function CadastroUsuario() {
@@ -39,7 +39,8 @@ export default function CadastroUsuario() {
     const cadastrarUsuario = () => {
         setLoading(true);
         usuarioService.cadastrarUsuario(dadosCadastro).then((response) => {
-            if(response.status === 200){
+            console.log("Response", response);
+            if(response){
                 setLoading(false);
                 navigation.navigate('Login');
             } else {
@@ -47,6 +48,31 @@ export default function CadastroUsuario() {
                 Alert.alert("Erro", "Ops!!! 'Não foi possível realizar o seu cadastro!");
             }
         })
+    };
+
+    async function validarCadastrar() {
+       console.log("Passou!");
+
+       const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+
+
+       try {
+        const schema = Yup.object().shape({
+            password: Yup.string().required("A senha é obrigatória!"),
+            email: Yup.string().required("O e-mail é obrigatório!").email("Este e-mail não é válido!"),
+            phone: Yup.string().required("O telefone é obrigatório!").matches(phoneRegExp, "O telefone não é válido!"),
+            name: Yup.string().required("O nome é obrigatório!")
+        })
+
+        await schema.validate({name, phone, email, password});
+        cadastrarUsuario();
+        
+       } catch (error) {
+           console.log(error);
+            if (error instanceof Yup.ValidationError){
+                Alert.alert(error.message);
+            }
+       }
     };
      
     return <View style={Styles.viewContainer}>
@@ -77,7 +103,8 @@ export default function CadastroUsuario() {
             <ActivityIndicator />
         }
 
-        <TouchableOpacity onPress={() => cadastrarUsuario()} 
+        <TouchableOpacity 
+            onPress={() => validarCadastrar()} 
             style={Styles.botaoPrincipal}>
             <Text style={Styles.textoBotaoPrincipal}>CADASTRAR</Text>
         </TouchableOpacity>
