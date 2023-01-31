@@ -12,6 +12,7 @@ export default function ProdutosFavoritos({navigation}) {
     const [token, setToken] = useContext(LoginContext);
     const [listaProdutos, setlistaProdutos] = useState([]);
     const [isLoading, setLoading] = useState(false);
+    const [load, setLoad] = useState(true);
   
     async function listarProdutosFavoritos() {
         setLoading(true)
@@ -27,7 +28,8 @@ export default function ProdutosFavoritos({navigation}) {
 
     useEffect(() => {
         listarProdutosFavoritos();
-    }, []);
+        navigation.addListener('focus', ()=>setLoad(!load));
+    }, [load, navigation]);
 
 
     const TopoLista = () => {

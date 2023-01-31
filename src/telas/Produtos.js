@@ -14,6 +14,7 @@ export default function Produtos({navigation}){
     const [listaProdutos, setlistaProdutos] = useState([]);
     const [pagina, setPagina] = useState(1);
     const [maisPaginas, setMaisPaginas] = useState(true);
+    const [load, setLoad] = useState(true);
 
     async function listarProdutos() {
         if (!maisPaginas) return;
@@ -32,7 +33,8 @@ export default function Produtos({navigation}){
 
     useEffect(() => {
         listarProdutos();
-    }, []);
+        navigation.addListener('focus', ()=>setLoad(!load));
+    }, [load, navigation]);
 
 
     const TopoLista = () => {
